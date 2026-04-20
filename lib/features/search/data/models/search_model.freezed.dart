@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SearchModel {
 
- int get id; String get firstName; String get lastName;
+@JsonKey(name: "id") String get id;@JsonKey(name: "name_ar") String get nameAr;@JsonKey(name: "name_en") String? get nameEn;@JsonKey(name: "description_ar") String? get descriptionAr;@JsonKey(name: "description_en") String? get descriptionEn;@JsonKey(name: "price") double get price;@JsonKey(name: "barcode") String get barcode;@JsonKey(name: "image_url") String get imageUrl;@JsonKey(name: "link") String get link;@JsonKey(name: "site") String get site;@JsonKey(name: "category") String get category;@JsonKey(name: "sub_category") String? get subCategory;@JsonKey(name: "is_active") bool get isActive;@JsonKey(name: "created_at") String get createdAt;@JsonKey(name: "updated_at") String get updatedAt;
 /// Create a copy of SearchModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SearchModelCopyWith<SearchModel> get copyWith => _$SearchModelCopyWithImpl<Sear
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchModel&&(identical(other.id, id) || other.id == id)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameAr, nameAr) || other.nameAr == nameAr)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.descriptionAr, descriptionAr) || other.descriptionAr == descriptionAr)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.price, price) || other.price == price)&&(identical(other.barcode, barcode) || other.barcode == barcode)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.link, link) || other.link == link)&&(identical(other.site, site) || other.site == site)&&(identical(other.category, category) || other.category == category)&&(identical(other.subCategory, subCategory) || other.subCategory == subCategory)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,firstName,lastName);
+int get hashCode => Object.hash(runtimeType,id,nameAr,nameEn,descriptionAr,descriptionEn,price,barcode,imageUrl,link,site,category,subCategory,isActive,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'SearchModel(id: $id, firstName: $firstName, lastName: $lastName)';
+  return 'SearchModel(id: $id, nameAr: $nameAr, nameEn: $nameEn, descriptionAr: $descriptionAr, descriptionEn: $descriptionEn, price: $price, barcode: $barcode, imageUrl: $imageUrl, link: $link, site: $site, category: $category, subCategory: $subCategory, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SearchModelCopyWith<$Res>  {
   factory $SearchModelCopyWith(SearchModel value, $Res Function(SearchModel) _then) = _$SearchModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String firstName, String lastName
+@JsonKey(name: "id") String id,@JsonKey(name: "name_ar") String nameAr,@JsonKey(name: "name_en") String? nameEn,@JsonKey(name: "description_ar") String? descriptionAr,@JsonKey(name: "description_en") String? descriptionEn,@JsonKey(name: "price") double price,@JsonKey(name: "barcode") String barcode,@JsonKey(name: "image_url") String imageUrl,@JsonKey(name: "link") String link,@JsonKey(name: "site") String site,@JsonKey(name: "category") String category,@JsonKey(name: "sub_category") String? subCategory,@JsonKey(name: "is_active") bool isActive,@JsonKey(name: "created_at") String createdAt,@JsonKey(name: "updated_at") String updatedAt
 });
 
 
@@ -65,11 +65,23 @@ class _$SearchModelCopyWithImpl<$Res>
 
 /// Create a copy of SearchModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? firstName = null,Object? lastName = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? nameAr = null,Object? nameEn = freezed,Object? descriptionAr = freezed,Object? descriptionEn = freezed,Object? price = null,Object? barcode = null,Object? imageUrl = null,Object? link = null,Object? site = null,Object? category = null,Object? subCategory = freezed,Object? isActive = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
-as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
+as String,nameAr: null == nameAr ? _self.nameAr : nameAr // ignore: cast_nullable_to_non_nullable
+as String,nameEn: freezed == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
+as String?,descriptionAr: freezed == descriptionAr ? _self.descriptionAr : descriptionAr // ignore: cast_nullable_to_non_nullable
+as String?,descriptionEn: freezed == descriptionEn ? _self.descriptionEn : descriptionEn // ignore: cast_nullable_to_non_nullable
+as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as double,barcode: null == barcode ? _self.barcode : barcode // ignore: cast_nullable_to_non_nullable
+as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,link: null == link ? _self.link : link // ignore: cast_nullable_to_non_nullable
+as String,site: null == site ? _self.site : site // ignore: cast_nullable_to_non_nullable
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,subCategory: freezed == subCategory ? _self.subCategory : subCategory // ignore: cast_nullable_to_non_nullable
+as String?,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -155,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String firstName,  String lastName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  String id, @JsonKey(name: "name_ar")  String nameAr, @JsonKey(name: "name_en")  String? nameEn, @JsonKey(name: "description_ar")  String? descriptionAr, @JsonKey(name: "description_en")  String? descriptionEn, @JsonKey(name: "price")  double price, @JsonKey(name: "barcode")  String barcode, @JsonKey(name: "image_url")  String imageUrl, @JsonKey(name: "link")  String link, @JsonKey(name: "site")  String site, @JsonKey(name: "category")  String category, @JsonKey(name: "sub_category")  String? subCategory, @JsonKey(name: "is_active")  bool isActive, @JsonKey(name: "created_at")  String createdAt, @JsonKey(name: "updated_at")  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SearchModel() when $default != null:
-return $default(_that.id,_that.firstName,_that.lastName);case _:
+return $default(_that.id,_that.nameAr,_that.nameEn,_that.descriptionAr,_that.descriptionEn,_that.price,_that.barcode,_that.imageUrl,_that.link,_that.site,_that.category,_that.subCategory,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -176,10 +188,10 @@ return $default(_that.id,_that.firstName,_that.lastName);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String firstName,  String lastName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  String id, @JsonKey(name: "name_ar")  String nameAr, @JsonKey(name: "name_en")  String? nameEn, @JsonKey(name: "description_ar")  String? descriptionAr, @JsonKey(name: "description_en")  String? descriptionEn, @JsonKey(name: "price")  double price, @JsonKey(name: "barcode")  String barcode, @JsonKey(name: "image_url")  String imageUrl, @JsonKey(name: "link")  String link, @JsonKey(name: "site")  String site, @JsonKey(name: "category")  String category, @JsonKey(name: "sub_category")  String? subCategory, @JsonKey(name: "is_active")  bool isActive, @JsonKey(name: "created_at")  String createdAt, @JsonKey(name: "updated_at")  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _SearchModel():
-return $default(_that.id,_that.firstName,_that.lastName);case _:
+return $default(_that.id,_that.nameAr,_that.nameEn,_that.descriptionAr,_that.descriptionEn,_that.price,_that.barcode,_that.imageUrl,_that.link,_that.site,_that.category,_that.subCategory,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +208,10 @@ return $default(_that.id,_that.firstName,_that.lastName);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String firstName,  String lastName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  String id, @JsonKey(name: "name_ar")  String nameAr, @JsonKey(name: "name_en")  String? nameEn, @JsonKey(name: "description_ar")  String? descriptionAr, @JsonKey(name: "description_en")  String? descriptionEn, @JsonKey(name: "price")  double price, @JsonKey(name: "barcode")  String barcode, @JsonKey(name: "image_url")  String imageUrl, @JsonKey(name: "link")  String link, @JsonKey(name: "site")  String site, @JsonKey(name: "category")  String category, @JsonKey(name: "sub_category")  String? subCategory, @JsonKey(name: "is_active")  bool isActive, @JsonKey(name: "created_at")  String createdAt, @JsonKey(name: "updated_at")  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _SearchModel() when $default != null:
-return $default(_that.id,_that.firstName,_that.lastName);case _:
+return $default(_that.id,_that.nameAr,_that.nameEn,_that.descriptionAr,_that.descriptionEn,_that.price,_that.barcode,_that.imageUrl,_that.link,_that.site,_that.category,_that.subCategory,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -211,12 +223,24 @@ return $default(_that.id,_that.firstName,_that.lastName);case _:
 @JsonSerializable()
 
 class _SearchModel implements SearchModel {
-  const _SearchModel({required this.id, required this.firstName, required this.lastName});
+  const _SearchModel({@JsonKey(name: "id") required this.id, @JsonKey(name: "name_ar") required this.nameAr, @JsonKey(name: "name_en") this.nameEn, @JsonKey(name: "description_ar") this.descriptionAr, @JsonKey(name: "description_en") this.descriptionEn, @JsonKey(name: "price") required this.price, @JsonKey(name: "barcode") required this.barcode, @JsonKey(name: "image_url") required this.imageUrl, @JsonKey(name: "link") required this.link, @JsonKey(name: "site") required this.site, @JsonKey(name: "category") required this.category, @JsonKey(name: "sub_category") this.subCategory, @JsonKey(name: "is_active") required this.isActive, @JsonKey(name: "created_at") required this.createdAt, @JsonKey(name: "updated_at") required this.updatedAt});
   factory _SearchModel.fromJson(Map<String, dynamic> json) => _$SearchModelFromJson(json);
 
-@override final  int id;
-@override final  String firstName;
-@override final  String lastName;
+@override@JsonKey(name: "id") final  String id;
+@override@JsonKey(name: "name_ar") final  String nameAr;
+@override@JsonKey(name: "name_en") final  String? nameEn;
+@override@JsonKey(name: "description_ar") final  String? descriptionAr;
+@override@JsonKey(name: "description_en") final  String? descriptionEn;
+@override@JsonKey(name: "price") final  double price;
+@override@JsonKey(name: "barcode") final  String barcode;
+@override@JsonKey(name: "image_url") final  String imageUrl;
+@override@JsonKey(name: "link") final  String link;
+@override@JsonKey(name: "site") final  String site;
+@override@JsonKey(name: "category") final  String category;
+@override@JsonKey(name: "sub_category") final  String? subCategory;
+@override@JsonKey(name: "is_active") final  bool isActive;
+@override@JsonKey(name: "created_at") final  String createdAt;
+@override@JsonKey(name: "updated_at") final  String updatedAt;
 
 /// Create a copy of SearchModel
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +255,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchModel&&(identical(other.id, id) || other.id == id)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchModel&&(identical(other.id, id) || other.id == id)&&(identical(other.nameAr, nameAr) || other.nameAr == nameAr)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.descriptionAr, descriptionAr) || other.descriptionAr == descriptionAr)&&(identical(other.descriptionEn, descriptionEn) || other.descriptionEn == descriptionEn)&&(identical(other.price, price) || other.price == price)&&(identical(other.barcode, barcode) || other.barcode == barcode)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.link, link) || other.link == link)&&(identical(other.site, site) || other.site == site)&&(identical(other.category, category) || other.category == category)&&(identical(other.subCategory, subCategory) || other.subCategory == subCategory)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,firstName,lastName);
+int get hashCode => Object.hash(runtimeType,id,nameAr,nameEn,descriptionAr,descriptionEn,price,barcode,imageUrl,link,site,category,subCategory,isActive,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'SearchModel(id: $id, firstName: $firstName, lastName: $lastName)';
+  return 'SearchModel(id: $id, nameAr: $nameAr, nameEn: $nameEn, descriptionAr: $descriptionAr, descriptionEn: $descriptionEn, price: $price, barcode: $barcode, imageUrl: $imageUrl, link: $link, site: $site, category: $category, subCategory: $subCategory, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -251,7 +275,7 @@ abstract mixin class _$SearchModelCopyWith<$Res> implements $SearchModelCopyWith
   factory _$SearchModelCopyWith(_SearchModel value, $Res Function(_SearchModel) _then) = __$SearchModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String firstName, String lastName
+@JsonKey(name: "id") String id,@JsonKey(name: "name_ar") String nameAr,@JsonKey(name: "name_en") String? nameEn,@JsonKey(name: "description_ar") String? descriptionAr,@JsonKey(name: "description_en") String? descriptionEn,@JsonKey(name: "price") double price,@JsonKey(name: "barcode") String barcode,@JsonKey(name: "image_url") String imageUrl,@JsonKey(name: "link") String link,@JsonKey(name: "site") String site,@JsonKey(name: "category") String category,@JsonKey(name: "sub_category") String? subCategory,@JsonKey(name: "is_active") bool isActive,@JsonKey(name: "created_at") String createdAt,@JsonKey(name: "updated_at") String updatedAt
 });
 
 
@@ -268,11 +292,23 @@ class __$SearchModelCopyWithImpl<$Res>
 
 /// Create a copy of SearchModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? firstName = null,Object? lastName = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? nameAr = null,Object? nameEn = freezed,Object? descriptionAr = freezed,Object? descriptionEn = freezed,Object? price = null,Object? barcode = null,Object? imageUrl = null,Object? link = null,Object? site = null,Object? category = null,Object? subCategory = freezed,Object? isActive = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_SearchModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
-as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
+as String,nameAr: null == nameAr ? _self.nameAr : nameAr // ignore: cast_nullable_to_non_nullable
+as String,nameEn: freezed == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
+as String?,descriptionAr: freezed == descriptionAr ? _self.descriptionAr : descriptionAr // ignore: cast_nullable_to_non_nullable
+as String?,descriptionEn: freezed == descriptionEn ? _self.descriptionEn : descriptionEn // ignore: cast_nullable_to_non_nullable
+as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as double,barcode: null == barcode ? _self.barcode : barcode // ignore: cast_nullable_to_non_nullable
+as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,link: null == link ? _self.link : link // ignore: cast_nullable_to_non_nullable
+as String,site: null == site ? _self.site : site // ignore: cast_nullable_to_non_nullable
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,subCategory: freezed == subCategory ? _self.subCategory : subCategory // ignore: cast_nullable_to_non_nullable
+as String?,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

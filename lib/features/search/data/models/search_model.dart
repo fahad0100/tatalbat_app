@@ -6,19 +6,40 @@ part 'search_model.g.dart';
 @freezed
 abstract class SearchModel with _$SearchModel {
   const factory SearchModel({
-    required int id,
-    required String firstName,
-    required String lastName,
-    
+    @JsonKey(name: "id") required String id,
+    @JsonKey(name: "name_ar") required String nameAr,
+    @JsonKey(name: "name_en") String? nameEn,
+    @JsonKey(name: "description_ar") String? descriptionAr,
+    @JsonKey(name: "description_en") String? descriptionEn,
+    @JsonKey(name: "price") required double price,
+    @JsonKey(name: "barcode") required String barcode,
+    @JsonKey(name: "image_url") required String imageUrl,
+    @JsonKey(name: "link") required String link,
+    @JsonKey(name: "site") required String site,
+    @JsonKey(name: "category") required String category,
+    @JsonKey(name: "sub_category") String? subCategory,
+    @JsonKey(name: "is_active") required bool isActive,
+    @JsonKey(name: "created_at") required String createdAt,
+    @JsonKey(name: "updated_at") required String updatedAt,
   }) = _SearchModel;
 
-  factory SearchModel.fromJson(Map<String, Object?> json) => _$SearchModelFromJson(json);
+  factory SearchModel.fromJson(Map<String, Object?> json) =>
+      _$SearchModelFromJson(json);
 }
-
-
 
 extension SearchModelMapper on SearchModel {
   SearchEntity toEntity() {
-    return SearchEntity(id: id, firstName: firstName, lastName: lastName);
+    return SearchEntity(
+      id: id,
+      nameAr: nameAr,
+      nameEn: nameEn,
+      descriptionAr: descriptionAr,
+      descriptionEn: descriptionEn,
+      price: price,
+      barcode: barcode,
+      imageUrl: imageUrl,
+      category: category,
+      subCategory: subCategory,
+    );
   }
-  }
+}
