@@ -20,12 +20,15 @@ class HomeFeatureScreen extends StatelessWidget {
             },
             icon: Icon(Icons.search),
           ),
+          IconButton(
+            onPressed: () {
+              context.push(Routes.addItemList, extra: false);
+            },
+            icon: Icon(Icons.list),
+          ),
         ],
       ),
-      body: Column(children: [
-          
-        ],
-      ),
+      body: Column(children: []),
     );
   }
 }

@@ -11,10 +11,8 @@ import 'package:talabat_app/features/home/presentation/pages/home_feature_screen
 import 'package:talabat_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:talabat_app/features/search/presentation/pages/search_feature_screen.dart';
 import 'package:talabat_app/features/search/presentation/cubit/search_cubit.dart';
-
-
-
-
+import 'package:talabat_app/features/add_item_list/presentation/pages/add_item_list_feature_screen.dart';
+import 'package:talabat_app/features/add_item_list/presentation/cubit/add_item_list_cubit.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -26,39 +24,52 @@ class AppRouter {
           return Scaffold(body: Center(child: Text("splash screen")));
         }, // SplashScreen
       ),
-    
-  GoRoute(
-    path: Routes.loading,
-    builder: (context, state) => BlocProvider(
+
+      GoRoute(
+        path: Routes.loading,
+        builder: (context, state) => BlocProvider(
           create: (context) => LoadingCubit(GetIt.I.get()),
           child: const LoadingFeatureScreen(),
         ),
-  ),
+      ),
 
-  GoRoute(
-    path: Routes.auth,
-    builder: (context, state) => BlocProvider(
+      GoRoute(
+        path: Routes.auth,
+        builder: (context, state) => BlocProvider(
           create: (context) => AuthCubit(GetIt.I.get()),
           child: const AuthFeatureScreen(),
         ),
-  ),
+      ),
 
-  GoRoute(
-    path: Routes.home,
-    builder: (context, state) => BlocProvider(
+      GoRoute(
+        path: Routes.home,
+        builder: (context, state) => BlocProvider(
           create: (context) => HomeCubit(GetIt.I.get()),
           child: const HomeFeatureScreen(),
         ),
-  ),
+      ),
 
-  GoRoute(
-    path: Routes.search,
-    builder: (context, state) => BlocProvider(
+      GoRoute(
+        path: Routes.search,
+        builder: (context, state) => BlocProvider(
           create: (context) => SearchCubit(GetIt.I.get()),
           child: const SearchFeatureScreen(),
         ),
-  ),
-],
+      ),
+
+      GoRoute(
+        path: Routes.addItemList,
+        builder: (context, state) {
+          assert(state.extra != null, "Select type of move");
+          bool isEdit = state.extra as bool;
+
+          return BlocProvider(
+            create: (context) => AddItemListCubit(GetIt.I.get()),
+            child: AddItemListFeatureScreen(isEdit: isEdit),
+          );
+        },
+      ),
+    ],
 
     errorBuilder: (context, state) =>
         Scaffold(body: Center(child: Text('Page not found: ${state.uri}'))),

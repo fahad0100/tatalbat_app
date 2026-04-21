@@ -24,7 +24,6 @@ class SearchFeatureScreen extends HookWidget {
       }
 
       timer = Timer.periodic(Duration(milliseconds: 500), (timer) async {
-        print(timer.tick);
         if (timer.tick == 1) {
           cubit.getSearchMethod(name: controllerSearch.text);
           timer.cancel();

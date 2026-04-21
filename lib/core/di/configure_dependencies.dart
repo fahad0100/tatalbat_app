@@ -5,6 +5,7 @@ import 'package:talabat_app/features/loading/di/loading_di.dart';
 import 'package:talabat_app/features/auth/di/auth_di.dart';
 import 'package:talabat_app/features/home/di/home_di.dart';
 import 'package:talabat_app/features/search/di/search_di.dart';
+import 'package:talabat_app/features/add_item_list/di/add_item_list_di.dart';
 
 @InjectableInit(
   initializerName: 'init', 
@@ -20,4 +21,5 @@ Future<void> configureDependencies() async {
     configureAuth(getIt);
     configureHome(getIt);
     configureSearch(getIt);
+    configureAddItemList(getIt);
 }
