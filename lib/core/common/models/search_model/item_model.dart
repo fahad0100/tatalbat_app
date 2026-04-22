@@ -1,11 +1,13 @@
+import 'package:talabat_app/features/add_item_list/sub/add_items/domain/entities/add_items_entity.dart';
+import 'package:talabat_app/features/add_item_list/sub/add_items/domain/entities/items_entity.dart';
 import 'package:talabat_app/features/search/domain/entities/search_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'search_model.freezed.dart';
-part 'search_model.g.dart';
+part 'item_model.freezed.dart';
+part 'item_model.g.dart';
 
 @freezed
-abstract class SearchModel with _$SearchModel {
-  const factory SearchModel({
+abstract class ItemModel with _$ItemModel {
+  const factory ItemModel({
     @JsonKey(name: "id") required String id,
     @JsonKey(name: "name_ar") required String nameAr,
     @JsonKey(name: "name_en") String? nameEn,
@@ -21,14 +23,14 @@ abstract class SearchModel with _$SearchModel {
     @JsonKey(name: "is_active") required bool isActive,
     @JsonKey(name: "created_at") required String createdAt,
     @JsonKey(name: "updated_at") required String updatedAt,
-  }) = _SearchModel;
+  }) = _ItemModel;
 
-  factory SearchModel.fromJson(Map<String, Object?> json) =>
-      _$SearchModelFromJson(json);
+  factory ItemModel.fromJson(Map<String, Object?> json) =>
+      _$ItemModelFromJson(json);
 }
 
-extension SearchModelMapper on SearchModel {
-  SearchEntity toEntity() {
+extension ItemModelMapper on ItemModel {
+  SearchEntity toEntityBaseData() {
     return SearchEntity(
       id: id,
       nameAr: nameAr,
@@ -40,6 +42,16 @@ extension SearchModelMapper on SearchModel {
       imageUrl: imageUrl,
       category: category,
       subCategory: subCategory,
+    );
+  }
+
+  ItemsEntity toEntityItem() {
+    return ItemsEntity(
+      id: id,
+      name: nameAr,
+      price: price,
+      url: imageUrl,
+      barcode: barcode,
     );
   }
 }

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'search_model.dart';
+part of 'item_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_SearchModel _$SearchModelFromJson(Map<String, dynamic> json) => _SearchModel(
+_ItemModel _$ItemModelFromJson(Map<String, dynamic> json) => _ItemModel(
   id: json['id'] as String,
   nameAr: json['name_ar'] as String,
   nameEn: json['name_en'] as String?,
@@ -24,7 +24,7 @@ _SearchModel _$SearchModelFromJson(Map<String, dynamic> json) => _SearchModel(
   updatedAt: json['updated_at'] as String,
 );
 
-Map<String, dynamic> _$SearchModelToJson(_SearchModel instance) =>
+Map<String, dynamic> _$ItemModelToJson(_ItemModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name_ar': instance.nameAr,
