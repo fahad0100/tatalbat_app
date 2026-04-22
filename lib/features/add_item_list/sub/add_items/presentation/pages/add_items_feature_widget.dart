@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:any_image_view/any_image_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sizer/sizer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:talabat_app/core/extensions/context_extensions.dart';
 import 'package:talabat_app/core/widgets/loading_widget.dart';
 import 'package:talabat_app/features/add_item_list/presentation/widgets/merge.dart';
@@ -21,6 +24,7 @@ class AddItemsFeatureWidget extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final cubit = context.read<AddItemsCubit>();
+          cubit.getAddItemsMethod();
           return Scaffold(
             appBar: AppBar(),
             floatingActionButton: FloatingActionButton.small(
@@ -34,20 +38,27 @@ class AddItemsFeatureWidget extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      ItemCards(
-                        callBack: () async {
-                          await cubit.getAddItemsMethod();
-                          final state = cubit.state;
-                          if (state is AddItemsSuccessState) {
-                            return state.items;
-                          }
-
-                          return [];
+                      BlocBuilder<AddItemsCubit, AddItemsState>(
+                        builder: (context, state) {
+                          return ItemCards(
+                            isLoading: (state is AddItemsSuccessState)
+                                ? false
+                                : true,
+                            items: (state is AddItemsSuccessState)
+                                ? state.items
+                                : [],
+                            buildWhen: () {
+                              if (state is AddItemsSuccessState) {
+                                return true;
+                              }
+                              return false;
+                            },
+                          );
                         },
                       ),
-                      ItemCards(),
-                      ItemCards(),
-                      ItemCards(),
+                      // ItemCards(),
+                      // ItemCards(),
+                      // ItemCards(),
                       FilledButton(onPressed: () {}, child: Text("New item")),
                     ],
                   ),
@@ -62,17 +73,20 @@ class AddItemsFeatureWidget extends StatelessWidget {
 }
 
 //------
+final GlobalKey _dialogKey = GlobalKey();
 
 class ItemCards extends HookWidget {
-  const ItemCards({super.key, this.callBack});
-
-  final Future<List<ItemsEntity>> Function()? callBack;
-
+  const ItemCards({
+    super.key,
+    required this.items,
+    required this.isLoading,
+    this.buildWhen,
+  });
+  final List<ItemsEntity> items;
+  final bool Function()? buildWhen;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
-    List<ItemsEntity> items = [];
-    final GlobalKey stateFullKey = GlobalKey();
-    bool isLoading = true;
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
@@ -91,8 +105,13 @@ class ItemCards extends HookWidget {
                 context.showBottomSheet(
                   height: 100.sh,
                   widget: StatefulBuilder(
-                    key: stateFullKey,
+                    key: _dialogKey,
                     builder: (context, setState) {
+                      if (_dialogKey.currentState != null) {
+                        _dialogKey.currentState!.setState(() {
+                          // تحديث القيم هنا
+                        });
+                      }
                       return SizedBox(
                         height: 10000,
                         width: double.infinity,
@@ -116,18 +135,6 @@ class ItemCards extends HookWidget {
                     },
                   ),
                 );
-                if (callBack == null) {
-                  isLoading = false;
-                  items = [];
-                }
-                if (callBack != null) {
-                  items = await callBack!();
-                  isLoading = false;
-
-                  if (stateFullKey.currentState?.mounted == true) {
-                    stateFullKey.currentState!.setState(() {});
-                  }
-                }
               }
             },
           ),
