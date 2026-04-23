@@ -10,6 +10,8 @@ abstract class AddItemsState extends Equatable {
 
 class AddItemsInitialState extends AddItemsState {}
 
+class AddLoadingSearchState extends AddItemsState {}
+
 class AddItemsSuccessState extends AddItemsState {
   final List<ItemsEntity> items;
 

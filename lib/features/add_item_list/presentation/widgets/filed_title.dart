@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class FieldTitle extends StatelessWidget {
-  const FieldTitle({super.key, required this.hintText, required this.label});
+  const FieldTitle({
+    super.key,
+    required this.hintText,
+    required this.label,
+    this.controller,
+  });
   final String hintText;
   final String label;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +21,7 @@ class FieldTitle extends StatelessWidget {
         TextField(
           minLines: 1,
           maxLines: 1,
+          controller: controller,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,

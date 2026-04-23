@@ -8,13 +8,31 @@ class OurField extends StatelessWidget {
   final OurFieldEnum type;
   final String? hint;
   final String label;
-  const OurField._({required this.type, this.hint, required this.label});
+  final TextEditingController? controller;
+  const OurField._({
+    required this.type,
+    this.hint,
+    required this.label,
+    this.controller,
+  });
 
-  factory OurField.field({String? hint, required String label}) {
-    return OurField._(type: .field, hint: hint, label: label);
+  factory OurField.field({
+    String? hint,
+    required String label,
+    TextEditingController? controller,
+  }) {
+    return OurField._(
+      type: .field,
+      hint: hint,
+      label: label,
+      controller: controller,
+    );
   }
-  factory OurField.form({required String label}) {
-    return OurField._(type: .form, label: label);
+  factory OurField.form({
+    required String label,
+    TextEditingController? controller,
+  }) {
+    return OurField._(type: .form, label: label, controller: controller);
   }
 
   @override
@@ -22,7 +40,11 @@ class OurField extends StatelessWidget {
     switch (type) {
       case .field:
         assert(hint != null, "There is error from ne");
-        return FieldTitle(hintText: hint!, label: label);
+        return FieldTitle(
+          hintText: hint!,
+          label: label,
+          controller: controller,
+        );
       case .form:
         return FieldBox(label: label);
     }

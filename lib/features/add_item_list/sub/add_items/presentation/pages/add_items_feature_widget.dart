@@ -1,31 +1,33 @@
-import 'dart:developer';
-
 import 'package:any_image_view/any_image_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sizer/sizer.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:talabat_app/core/extensions/context_extensions.dart';
-import 'package:talabat_app/core/widgets/loading_widget.dart';
 import 'package:talabat_app/features/add_item_list/presentation/widgets/merge.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/domain/entities/items_entity.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/presentation/cubit/add_items_cubit.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/presentation/cubit/add_items_state.dart';
 
-class AddItemsFeatureWidget extends StatelessWidget {
+class AddItemsFeatureWidget extends HookWidget {
   const AddItemsFeatureWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final controllerSearch = useTextEditingController();
+
     return BlocProvider(
       create: (context) => AddItemsCubit(GetIt.I.get()),
       child: Builder(
         builder: (context) {
           final cubit = context.read<AddItemsCubit>();
-          int x = 1;
+          cubit.getAddItemsMethod();
+          controllerSearch.addListener(() {
+            print("object");
+            cubit.getAddItemsMethod(search: controllerSearch.text);
+          });
           return Scaffold(
             appBar: AppBar(),
             floatingActionButton: FloatingActionButton.small(
@@ -41,17 +43,25 @@ class AddItemsFeatureWidget extends StatelessWidget {
                     children: [
                       BlocBuilder<AddItemsCubit, AddItemsState>(
                         builder: (context, state) {
-                          // cubit.stream.listen((onData) {
-                          //   _dialogKey.currentState!.setState(() {});
-                          // });
-                          if (x == 1) {
-                            cubit.getAddItemsMethod();
-                            x = 100;
-                          }
                           return ItemCards(
                             isLoading: (state is AddItemsSuccessState)
                                 ? false
                                 : true,
+                            controllerSearch: controllerSearch,
+                            items: (state is AddItemsSuccessState)
+                                ? state.items
+                                : [],
+                          );
+                        },
+                      ),
+                      BlocBuilder<AddItemsCubit, AddItemsState>(
+                        builder: (context, state) {
+                          return ItemCards(
+                            isLoading: (state is AddLoadingSearchState)
+                                ? false
+                                : true,
+
+                            controllerSearch: controllerSearch,
                             items: (state is AddItemsSuccessState)
                                 ? state.items
                                 : [],
@@ -75,23 +85,29 @@ class AddItemsFeatureWidget extends StatelessWidget {
 }
 
 class ItemCards extends HookWidget {
-  const ItemCards({super.key, required this.items, required this.isLoading});
+  const ItemCards({
+    super.key,
+    required this.items,
+    required this.isLoading,
+    required this.controllerSearch,
+  });
 
   final List<ItemsEntity> items;
   final bool isLoading;
+  final TextEditingController controllerSearch;
 
   @override
   Widget build(BuildContext context) {
     final loadingNotifier = useValueNotifier(isLoading);
-    final list = useValueNotifier(items);
+    final itemList = useValueNotifier(items);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         loadingNotifier.value = isLoading;
-        list.value = items;
+        itemList.value = items;
       });
       return null;
-    }, [isLoading, items]);
+    }, [isLoading, items, controllerSearch.text]);
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
@@ -117,6 +133,7 @@ class ItemCards extends HookWidget {
                         OurField.field(
                           label: "Search",
                           hint: "Write name item",
+                          controller: controllerSearch,
                         ),
                         if (isSheetLoading)
                           LinearProgressIndicator()
@@ -124,8 +141,19 @@ class ItemCards extends HookWidget {
                           Expanded(
                             child: ListView.builder(
                               shrinkWrap: false,
-                              itemBuilder: (context, index) =>
-                                  Text(list.value[index].id),
+                              itemCount: itemList.value.length,
+                              itemBuilder: (context, index) {
+                                final product = itemList.value[index];
+                                return ListTile(
+                                  leading: AnyImageView(
+                                    height: 60,
+                                    width: 60,
+                                    imagePath: product.url,
+                                  ),
+                                  title: Text(product.name),
+                                  trailing: Text("ريال ${product.price}"),
+                                );
+                              },
                             ),
                           ),
                       ],

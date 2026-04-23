@@ -8,10 +8,19 @@ class AddItemsCubit extends Cubit<AddItemsState> {
   AddItemsCubit(this._addItemsUseCase) : super(AddItemsInitialState());
 
   Future<void> getAddItemsMethod({String? search}) async {
-    await Future.delayed(Duration(seconds: 5));
-    final result = await _addItemsUseCase.getItems();
+    emit(AddLoadingSearchState());
+    await Future.delayed(Duration(seconds: 1));
+    final result = await _addItemsUseCase.getItems(
+      search: search == null
+          ? null
+          : search.isEmpty
+          ? null
+          : search,
+    );
+
     result.when(
       (success) {
+        print(success);
         emit(AddItemsSuccessState(items: success));
       },
       (whenError) {

@@ -15,9 +15,7 @@ class AddItemsRepositoryData implements AddItemsRepositoryDomain {
   AddItemsRepositoryData(this.remoteDataSource);
 
   @override
-  Future<Result<List<ItemsEntity>, Failure>> getItems({
-    String? search,
-  }) async {
+  Future<Result<List<ItemsEntity>, Failure>> getItems({String? search}) async {
     try {
       final response = await remoteDataSource.getItems(search: search);
       return Success(response.map((item) => item.toEntityItem()).toList());

@@ -18,15 +18,15 @@ class AddItemsRemoteDataSource implements BaseAddItemsRemoteDataSource {
   @override
   Future<List<ItemModel>> getItems({String? search}) async {
     try {
-      dynamic query = _supabase.from("products").select();
-
+      var query = _supabase.from("products").select();
+      print("-----> $search");
       if (search != null && search.isNotEmpty) {
         query = query.like('name_ar', search);
       }
 
-      if (search == null) {
-        query = await query.limit(100);
-      }
+      // if (search == null) {
+      // query = await query.limit(100);
+      // }
 
       final dataLoad = List.from((await query) ?? []);
 
