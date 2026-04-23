@@ -8,7 +8,7 @@ class AddItemsCubit extends Cubit<AddItemsState> {
   AddItemsCubit(this._addItemsUseCase) : super(AddItemsInitialState());
 
   Future<void> getAddItemsMethod({String? search}) async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 5));
     final result = await _addItemsUseCase.getItems();
     result.when(
       (success) {

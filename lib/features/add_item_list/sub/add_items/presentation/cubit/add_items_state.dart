@@ -13,7 +13,9 @@ class AddItemsInitialState extends AddItemsState {}
 class AddItemsSuccessState extends AddItemsState {
   final List<ItemsEntity> items;
 
- const AddItemsSuccessState({required this.items});
+  const AddItemsSuccessState({required this.items});
+  @override
+  List<Object?> get props => [items];
 }
 
 class AddItemsErrorState extends AddItemsState {
