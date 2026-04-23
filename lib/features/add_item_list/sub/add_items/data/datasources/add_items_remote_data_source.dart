@@ -19,7 +19,6 @@ class AddItemsRemoteDataSource implements BaseAddItemsRemoteDataSource {
   Future<List<ItemModel>> getItems({String? search}) async {
     try {
       var query = _supabase.from("products").select();
-      print("-----> $search");
       if (search != null && search.isNotEmpty) {
         query = query.like('name_ar', search);
       }
