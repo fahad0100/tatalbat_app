@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:any_image_view/any_image_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 import 'package:talabat_app/core/widgets/loading_widget.dart';
 import 'package:talabat_app/features/search/domain/entities/search_entity.dart';
@@ -63,7 +65,32 @@ class SearchFeatureScreen extends HookWidget {
                           itemCount: state.items.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return Text(state.items[index].nameAr);
+                            final item = state.items[index];
+                            return ListTile(
+                              title: Text(item.nameAr),
+                              leading: AnyImageView(
+                                imagePath: item.imageUrl,
+                                height: 75,
+                                width: 75,
+                              ),
+                              trailing: Text("ريال ${item.price}"),
+                              onTap: () {
+                                final matches = GoRouter.of(
+                                  context,
+                                ).routerDelegate.currentConfiguration.matches;
+                                if (matches.length > 1) {
+                                  final previousLocation =
+                                      matches[matches.length - 2]
+                                          .matchedLocation;
+                                  if (previousLocation == '/addItemList') {
+                                    context.pop(item);
+                                  }
+                                }
+                                // print(matches);
+
+                                // context.pop(item);
+                              },
+                            );
                           },
                         );
                       default:

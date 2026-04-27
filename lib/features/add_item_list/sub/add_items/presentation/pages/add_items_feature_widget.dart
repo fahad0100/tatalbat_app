@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:talabat_app/core/extensions/context_extensions.dart';
+import 'package:talabat_app/core/navigation/routers.dart';
+import 'package:talabat_app/core/services/insert_service.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/presentation/cubit/add_items_cubit.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/presentation/cubit/add_items_state.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/presentation/widgets/item_cards.dart';
@@ -19,93 +23,83 @@ class AddItemsFeatureWidget extends HookWidget {
           final cubit = context.read<AddItemsCubit>();
           cubit.getAddItemsMethod();
 
-          cubit.addItem(
-            insert: ItemInsert(name: "منهل", price: 100, url: "dlaisduf"),
-          );
-
           return Scaffold(
             appBar: AppBar(
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    print(cubit.itemsInsert.first);
-                  },
-                  icon: Icon(Icons.abc),
-                ),
-              ],
+              actions: [IconButton(onPressed: () {}, icon: Icon(Icons.abc))],
             ),
             floatingActionButton: FloatingActionButton.small(
-              onPressed: () {},
+              onPressed: () {
+                cubit.save();
+              },
               child: Icon(Icons.save),
             ),
 
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      BlocBuilder<AddItemsCubit, AddItemsState>(
-                        buildWhen: (previous, current) {
-                          return current is InsertItemSuccessState;
-                        },
-                        builder: (context, state) {
-                          if (state is InsertItemSuccessState) {
-                            return Column(
-                              children: state.itemsInsert
-                                  .map(
-                                    (item) => ItemCards(
-                                      item: item,
-                                      isLoading: (state is AddItemsSuccessState)
-                                          ? false
-                                          : true,
-
-                                      onTap: (p0) {
-                                        print("here from ItemCards");
-                                      },
-                                      items: (state is AddItemsSuccessState)
-                                          ? cubit.itemsLoaded
-                                          : [],
-                                    ),
-                                  )
-                                  .toList(),
+            body: BlocListener<AddItemsCubit, AddItemsState>(
+              listener: (context, state) {
+                switch (state) {
+                  case AddSaveAndCloseState _:
+                    context.go(Routes.home);
+                    break;
+                  case AddItemsErrorState _:
+                    context.showSnackBar(state.message);
+                    break;
+                  default:
+                }
+              },
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        BlocBuilder<AddItemsCubit, AddItemsState>(
+                          buildWhen: (previous, current) {
+                            return current is InsertItemSuccessState;
+                          },
+                          builder: (context, state) {
+                            if (state is InsertItemSuccessState) {
+                              return Column(
+                                children: List.generate(
+                                  state.itemsInsert.length,
+                                  (index) => ItemCards(
+                                    item: state.itemsInsert[index],
+                                    onSelectedMenu: (itemSelected) {
+                                      state.itemsInsert[index].name =
+                                          itemSelected.nameAr;
+                                      state.itemsInsert[index].price =
+                                          itemSelected.price;
+                                      state.itemsInsert[index].url =
+                                          itemSelected.imageUrl;
+                                      print(itemSelected.nameAr);
+                                      print(itemSelected.price);
+                                      print(itemSelected.imageUrl);
+                                      cubit.updateUI();
+                                    },
+                                    onPressedRemove: () {
+                                      cubit.remove(index: index);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            return Center(
+                              child: SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Text("data"),
+                              ),
                             );
-                          }
-                          return Center(
-                            child: SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: Text("data"),
-                            ),
-                          );
-                        },
-                      ),
+                          },
+                        ),
 
-                      //  ,
-                      //   BlocBuilder<AddItemsCubit, AddItemsState>(
-                      //     builder: (context, state) {
-                      //       return ItemCards(
-                      //         isLoading: (state is AddItemsSuccessState)
-                      //             ? false
-                      //             : true,
-
-                      //         controllerSearch: controllerSearch,
-                      //         items: (state is AddItemsSuccessState)
-                      //             ? state.items
-                      //             : [],
-                      //       );
-                      //     },
-                      //   ),
-                      // ItemCards(),
-                      // ItemCards(),
-                      // ItemCards(),
-                      FilledButton(
-                        onPressed: () {
-                          cubit.addItem(insert: ItemInsert());
-                        },
-                        child: Text("New item"),
-                      ),
-                    ],
+                        FilledButton(
+                          onPressed: () {
+                            cubit.addItem(insert: ItemInsert());
+                          },
+                          child: Text("New item"),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

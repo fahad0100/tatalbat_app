@@ -46,7 +46,7 @@ class OurField extends StatelessWidget {
           controller: controller,
         );
       case .form:
-        return FieldBox(label: label);
+        return FieldBox(label: label, controller: controller);
     }
   }
 }

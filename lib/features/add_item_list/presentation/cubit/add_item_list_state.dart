@@ -8,7 +8,13 @@ abstract class AddItemListState extends Equatable {
 }
 
 class AddItemListInitialState extends AddItemListState {}
+
 class AddItemListSuccessState extends AddItemListState {}
+
+class AddItemUpdateImageState extends AddItemListState {
+  final String pathImage;
+  const AddItemUpdateImageState({required this.pathImage});
+}
 
 class AddItemListErrorState extends AddItemListState {
   final String message;
@@ -16,4 +22,3 @@ class AddItemListErrorState extends AddItemListState {
   @override
   List<Object?> get props => [message];
 }
-

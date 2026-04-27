@@ -3,45 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sizer/sizer.dart';
-import 'package:talabat_app/core/extensions/context_extensions.dart';
+import 'package:talabat_app/core/navigation/routers.dart';
 import 'package:talabat_app/core/services/image_picker.dart';
 import 'package:talabat_app/features/add_item_list/presentation/widgets/merge.dart';
-import 'package:talabat_app/features/add_item_list/sub/add_items/domain/entities/items_entity.dart';
 import 'package:talabat_app/features/add_item_list/sub/add_items/presentation/pages/add_items_feature_widget.dart';
+import 'package:talabat_app/features/search/domain/entities/search_entity.dart';
 
 class ItemCards extends HookWidget {
   const ItemCards({
     super.key,
-    required this.items,
-    required this.isLoading,
-    required this.onTap,
-    required this.item,
+    this.item,
+    this.onSelectedMenu,
+    this.onPressedRemove,
   });
 
-  final List<ItemsEntity> items;
-  final ItemInsert item;
-  final bool isLoading;
-  final Function(ItemsEntity)? onTap;
-
+  final ItemInsert? item;
+  final void Function(SearchEntity)? onSelectedMenu;
+  final void Function()? onPressedRemove;
   @override
   Widget build(BuildContext context) {
-    final controllerSearch = useTextEditingController();
-    final priceController = useTextEditingController(
-      text: item.price?.toString() ?? "0.0",
-    );
-
-    final loadingNotifier = useValueNotifier(isLoading);
-    final itemList = useValueNotifier(items);
+    TextEditingController controllerSearch = useTextEditingController();
+    TextEditingController controllerPrice = useTextEditingController();
 
     useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        loadingNotifier.value = isLoading;
-        itemList.value = items;
-        controllerSearch.text = item.name ?? "";
-      });
+      controllerSearch.text = item?.name ?? "";
+      controllerPrice.text = item?.price?.toString() ?? "";
       return null;
-    }, [isLoading, items, controllerSearch.text]);
+    });
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
@@ -57,54 +46,6 @@ class ItemCards extends HookWidget {
 
               fillColor: Colors.white,
             ),
-            onTap: () async {
-              context.showBottomSheet(
-                height: 100.sh,
-
-                widget: ValueListenableBuilder<bool>(
-                  valueListenable: loadingNotifier,
-                  builder: (context, isSheetLoading, child) {
-                    return Column(
-                      children: [
-                        OurField.field(
-                          label: "Search",
-                          hint: "Write name item",
-                          controller: controllerSearch,
-                        ),
-                        if (isSheetLoading)
-                          LinearProgressIndicator()
-                        else
-                          Expanded(
-                            child: ListView.builder(
-                              shrinkWrap: false,
-                              itemCount: itemList.value.length,
-                              itemBuilder: (context, index) {
-                                final product = itemList.value[index];
-                                return ListTile(
-                                  onTap: () {
-                                    if (onTap != null) {
-                                      onTap!(product);
-                                      context.pop();
-                                    }
-                                  },
-                                  leading: AnyImageView(
-                                    height: 60,
-                                    width: 60,
-
-                                    imagePath: item.url ?? product.url,
-                                  ),
-                                  title: Text(product.name),
-                                  trailing: Text("ريال ${product.price}"),
-                                );
-                              },
-                            ),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-              );
-            },
           ),
           Gap(8),
           Row(
@@ -116,13 +57,13 @@ class ItemCards extends HookWidget {
                   return AnyImageView(
                     height: 150,
                     width: 150,
-                    imagePath: item.url,
+                    imagePath: item?.url,
                     onTap: () async {
                       print("hi");
 
                       final image = await ImagePickerService()
                           .loadImageFromGallery();
-                      item.url = image?.path;
+                      item?.url = image?.path;
                       setState(() {});
                     },
                   );
@@ -136,10 +77,10 @@ class ItemCards extends HookWidget {
                     OurField.field(
                       label: 'Price',
                       hint: "Price",
-                      controller: priceController,
+                      controller: controllerPrice,
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: onPressedRemove,
                       style: OutlinedButton.styleFrom(
                         fixedSize: Size(150, 45),
                         foregroundColor: Colors.red,
@@ -151,6 +92,18 @@ class ItemCards extends HookWidget {
                 ),
               ),
             ],
+          ),
+          Center(
+            child: TextButton(
+              onPressed: () {
+                context.push(Routes.search).then((value) {
+                  if (value is SearchEntity && onSelectedMenu != null) {
+                    onSelectedMenu!(value);
+                  }
+                });
+              },
+              child: Text("Select from Menu"),
+            ),
           ),
         ],
       ),

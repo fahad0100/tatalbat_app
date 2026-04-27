@@ -12,6 +12,7 @@ abstract class AddItemsState extends Equatable {
 class AddItemsInitialState extends AddItemsState {}
 
 class AddLoadingSearchState extends AddItemsState {}
+class AddSaveAndCloseState extends AddItemsState {}
 
 class InsertItemSuccessState extends AddItemsState {
   final List<ItemInsert> itemsInsert;
